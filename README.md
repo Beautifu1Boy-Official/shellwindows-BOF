@@ -1,6 +1,8 @@
 # ShellWindows-BOF
 
 一个简单的 Cobalt Strike Beacon Object File (BOF) 工具。主要用于 Shellcode 上线后的权限维持与会话断链转移。工具通过调用 Explorer 的 `ShellWindows` COM 接口来启动新进程，使其父进程强制变成 `explorer.exe`。
+<img width="754" height="70" alt="0880c08b0110879ea546" src="https://github.com/user-attachments/assets/55fe3a56-1cf0-4101-9348-dc15dc5be774" />
+
 
 ## 功能特点
 
@@ -48,7 +50,6 @@ shellwindows C:\Windows\System32\cmd.exe "/c whoami /all > C:\Windows\Temp\1.txt
 ```text
 shellwindows C:\Windows\Temp\beacon_x64.exe "" C:\Users\Public 0
 ```
-<img width="754" height="70" alt="0880c08b0110879ea546" src="https://github.com/user-attachments/assets/77bab7ee-9343-4e61-90fa-d21c808ca0e2" />
 
 
 ## 注意事项与局限性
