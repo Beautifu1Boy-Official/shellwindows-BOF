@@ -34,7 +34,7 @@ shellwindows <target_exe> [args] [dir] [show]
 **基础断链运行**（用于权限维持会话转移）：
 
 ```text
-shellwindows C:\Windows\Temp\agent.exe
+shellwindows C:\Windows\Temp\beacon_x64
 ```
 
 **带参数运行系统工具**：
@@ -46,8 +46,10 @@ shellwindows C:\Windows\System32\cmd.exe "/c whoami /all > C:\Windows\Temp\1.txt
 **SYSTEM 权限下切换到活动用户环境执行**：
 
 ```text
-shellwindows C:\Windows\Temp\grabber.exe "" C:\Users\Public 0
+shellwindows C:\Windows\Temp\beacon_x64.exe "" C:\Users\Public 0
 ```
+<img width="754" height="70" alt="0880c08b0110879ea546" src="https://github.com/user-attachments/assets/77bab7ee-9343-4e61-90fa-d21c808ca0e2" />
+
 
 ## 注意事项与局限性
 
