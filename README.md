@@ -36,7 +36,7 @@ shellwindows <target_exe> [args] [dir] [show]
 **基础断链运行**（用于权限维持会话转移）：
 
 ```text
-shellwindows C:\Windows\Temp\beacon_x64
+shellwindows C:\Windows\Temp\beacon_x64.exe
 ```
 
 **带参数运行系统工具**：
